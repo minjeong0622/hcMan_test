@@ -9,5 +9,5 @@ public class HcManApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(HcManApplication.class, args);
 	}
-
+	//test
 }
