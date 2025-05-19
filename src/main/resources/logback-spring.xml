@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 콘솔 출력 패턴 -->
+    <property name="CONSOLE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n"/>
+
+    <!-- 파일 출력 경로 및 패턴 -->
+    <property name="LOG_PATH" value="./logs"/>
+    <property name="FILE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n"/>
+
+    <!-- 콘솔 appender -->
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 파일 appender -->
+    <appender name="FileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/hcMan.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/hcMan.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 루트 로거 기본 레벨을 INFO로 설정 (불필요한 DEBUG 로그 제거) -->
+    <root level="INFO">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="FileAppender"/>
+    </root>
+
+    <!-- 관심 모듈에 대해서만 DEBUG 로그를 남김 -->
+    <logger name="com.heechang.hcMan.presentation.auth.controller" level="DEBUG" additivity="false">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="FileAppender"/>
+    </logger>
+
+    <logger name="com.heechang.hcMan.presentation.order.controller" level="DEBUG" additivity="false">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="FileAppender"/>
+    </logger>
+
+    <logger name="com.heechang.hcMan.JwtFilter" level="DEBUG" additivity="false">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="FileAppender"/>
+    </logger>
+
+    <logger name="com.heechang.hcMan.JwtUtil" level="DEBUG" additivity="false">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="FileAppender"/>
+    </logger>
+
+    <logger name="com.heechang.hcMan.JsonUsernamePasswordAuthenticationFilter" level="DEBUG" additivity="false">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="FileAppender"/>
+    </logger>
+
+    <!-- Hibernate 관련 로거는 INFO로 하여 SQL 로그 과다 출력을 막음 -->
+    <logger name="org.hibernate.SQL" level="INFO"/>
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="INFO"/>
+
+</configuration>
